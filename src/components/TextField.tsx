@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { InputProps } from "../types/InputProps";
+import { InputProps } from "../types/formProps";
 import useInput from "../hooks/useInput";
 
 export const min = (length: number) => (value: string | number) => {
@@ -17,9 +17,8 @@ const TextField: FunctionComponent<InputProps> = ({
   type,
   validate,
 }) => {
-  const { value, onChange, error } = useInput({ source, validate });
+  const { value, onChange } = useInput({ source, validate });
 
-  console.log(error);
   return (
     <div>
       <div style={{ display: "flex", gridGap: "8px" }}>
