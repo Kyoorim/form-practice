@@ -17,9 +17,8 @@ const TextField: FunctionComponent<InputProps> = ({
   type,
   validate,
 }) => {
-  const { value, onChange, error } = useInput({ source, validate });
+  const { value, onChange } = useInput({ source, validate });
 
-  console.log(error);
   return (
     <div>
       <div style={{ display: "flex", gridGap: "8px" }}>

@@ -7,7 +7,11 @@ export const FormContext = createContext({
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    name: "",
+    password: "",
+    checkbox: false,
+  });
   const [error, setError] = useState(false);
 
   const value = useMemo(
@@ -17,18 +21,29 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
 
   const onClick = (e: any) => {
     e.preventDefault();
-    const isValid = Object.values(values as Record<string, string>).every(
-      (value) => value.length >= 5 && value.length <= 10
-    );
-    // console.log(isValid);
+
+    const isValid =
+      values.name.length >= 5 &&
+      values.name.length <= 10 &&
+      values.password.length >= 5 &&
+      values.password.length <= 10 &&
+      typeof values.checkbox === "boolean";
 
     if (isValid) {
       alert(JSON.stringify(values));
-      setValues("");
+      setValues({
+        name: "",
+        password: "",
+        checkbox: false,
+      });
     } else {
       alert("제출 실패");
       setError(true);
-      setValues("");
+      setValues({
+        name: "",
+        password: "",
+        checkbox: false,
+      });
     }
   };
 
