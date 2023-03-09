@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { CheckboxProps } from "../types/checkboxProps";
+import { CheckboxProps } from "../types/formProps";
 import useInput from "../hooks/useInput";
 
 const CheckboxField: FunctionComponent<CheckboxProps> = ({ source, label }) => {

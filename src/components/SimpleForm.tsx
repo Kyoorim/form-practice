@@ -11,6 +11,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     name: "",
     password: "",
     checkbox: false,
+    sex: "성별",
   });
   const [error, setError] = useState(false);
 
@@ -27,7 +28,8 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
       values.name.length <= 10 &&
       values.password.length >= 5 &&
       values.password.length <= 10 &&
-      typeof values.checkbox === "boolean";
+      typeof values.checkbox === "boolean" &&
+      typeof values.sex === "string";
 
     if (isValid) {
       alert(JSON.stringify(values));
@@ -35,6 +37,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
         name: "",
         password: "",
         checkbox: false,
+        sex: "성별",
       });
     } else {
       alert("제출 실패");
@@ -43,6 +46,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
         name: "",
         password: "",
         checkbox: false,
+        sex: "성별",
       });
     }
   };

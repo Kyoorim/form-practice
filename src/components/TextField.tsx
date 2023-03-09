@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { InputProps } from "../types/InputProps";
+import { InputProps } from "../types/formProps";
 import useInput from "../hooks/useInput";
 
 export const min = (length: number) => (value: string | number) => {

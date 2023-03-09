@@ -7,3 +7,15 @@ export interface InputProps {
   type?: HTMLInputTypeAttribute;
   validate?: ((value: string | number) => boolean)[];
 }
+
+export interface CheckboxProps {
+  source: string;
+  label: string;
+  type?: "checkbox";
+}
+
+export interface SelectboxProps {
+  value?: string;
+  label: string;
+  source?: string;
+}
