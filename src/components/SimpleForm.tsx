@@ -17,10 +17,14 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
 
   const onClick = (e: any) => {
     e.preventDefault();
-    const isValid = Object.values(values as Record<string, string>).every(
-      (value) => value.length >= 5 && value.length <= 10
-    );
-    // console.log(isValid);
+
+    const isValid = Object.entries(values).every(([key, value]) => {
+      const validateFuncs = (children as any)
+        .filter((child: any) => child.props.source === key)
+        .flatMap((child: any) => child.props.validate || []);
+      console.log(validateFuncs);
+      return validateFuncs.every((validateFunc: any) => validateFunc(value));
+    });
 
     if (isValid) {
       alert(JSON.stringify(values));
