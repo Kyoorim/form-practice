@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { InputProps } from "../types/InputProps";
 import useInput from "../hooks/useInput";
 
@@ -21,20 +21,14 @@ const TextField: FunctionComponent<InputProps> = ({
   type,
   validate,
 }) => {
-  const { value, onChange, error } = useInput({ source, validate });
+  const { value, onChange, error } = useInput({
+    source,
+    validate,
+  });
+  console.log(error);
 
-  const [localError, setLocalError] = useState("");
-
-  console.log(validate);
-
-  useEffect(() => {
-    setLocalError(
-      validate
-        .map((validator) => validator(value))
-        .filter(Boolean)
-        .join(" ")
-    );
-  }, [value, validate]);
+  const errorMessage = error?.message;
+  console.log(error?.message);
 
   return (
     <div>
@@ -47,8 +41,7 @@ const TextField: FunctionComponent<InputProps> = ({
           type={type}
           placeholder={placeholder}
         />
-        {error ||
-          (localError && <span style={{ color: "red" }}>{localError}</span>)}
+        {errorMessage && <span style={{ color: "red" }}>{errorMessage}</span>}
       </div>
     </div>
   );

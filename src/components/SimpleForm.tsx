@@ -1,38 +1,52 @@
 import { createContext, PropsWithChildren, useMemo, useState } from "react";
 
-export const FormContext = createContext({
-  setValues: (v: any) => {},
-  values: {} as Record<string, any>,
-  error: true || false,
+type FormContextType = {
+  setValues: (v: Record<string, string | number>) => void;
+  values: Record<string, string | number>;
+  error: boolean;
+  setError: (errorMessage: boolean) => void;
+};
+
+export const FormContext = createContext<FormContextType>({
+  setValues: (v: Record<string, string | number>) => {},
+  values: {} as Record<string, string | number>,
+  error: false,
+  setError: (errorMessage: boolean) => {},
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState<Record<string, any>>({});
   const [error, setError] = useState(false);
 
   const value = useMemo(
-    () => ({ setValues, values, error }),
-    [setValues, values, error]
+    () => ({ setValues, values, error, setError }),
+    [setValues, values, error, setError]
   );
 
-  const onClick = (e: any) => {
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const isValid = Object.entries(values).every(([key, value]) => {
-      const validateFuncs = (children as any)
-        .filter((child: any) => child.props.source === key)
-        .flatMap((child: any) => child.props.validate || []);
-      console.log(validateFuncs);
-      return validateFuncs.every((validateFunc: any) => validateFunc(value));
-    });
+    const errors = (children as any)
+      .map((child: any) => {
+        const key = child.props.source;
+        const value = values[key];
+        const validateFuncs = child.props.validate || [];
+        return validateFuncs.map((validateFunc: any) => validateFunc(value));
+      })
+      .flat()
+      .filter(Boolean);
+
+    console.log(errors);
+
+    const isValid = errors.length === 0;
 
     if (isValid) {
       alert(JSON.stringify(values));
-      setValues("");
+      setError(false);
+      setValues({});
     } else {
       alert("제출 실패");
       setError(true);
-      setValues("");
     }
   };
 
