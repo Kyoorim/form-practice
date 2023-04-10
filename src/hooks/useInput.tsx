@@ -11,10 +11,7 @@ interface UseInputReturn {
 }
 
 function useInput(props: UseInputProps) {
-  const { setValues, values } = useContext(FormContext);
-  console.log(props);
-
-  const [error, setError] = useState<UseInputReturn["error"]>(undefined);
+  const { setValues, values, error, setError } = useContext(FormContext);
 
   const onChange = useCallback(
     (v: string | number) => {
@@ -25,10 +22,9 @@ function useInput(props: UseInputProps) {
 
       const errorMessage = props.validate
         .map((validator) => validator(v))
-        .filter(Boolean)
         .join(" ");
 
-      setError({ message: errorMessage, key: props.source });
+      setError({ ...error, [props.source]: errorMessage });
     },
     [values, props.source, props.validate, setError, setValues]
   );
