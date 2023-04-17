@@ -1,6 +1,7 @@
-import SelectboxField, { notDefaultValue } from "../components/SelectBoxField";
+import SelectboxField from "../components/SelectBoxField";
 import SimpleForm from "../components/SimpleForm";
-import TextField, { min, max } from "../components/TextField";
+import TextField from "../components/TextField";
+import {max, min, required} from "../validation";
 
 function UserInfoForm(): JSX.Element {
   return (
@@ -15,7 +16,11 @@ function UserInfoForm(): JSX.Element {
       <SelectboxField
         label={"성별"}
         source={"sex"}
-        validate={notDefaultValue("성별")}
+        validate={[required("성별을 선택해주세요")]}
+        options={[
+            { value: "남성", label: "남성" },
+            { value: "여성", label: "여성" },
+        ]}
       />
     </SimpleForm>
   );

@@ -13,4 +13,5 @@ export interface SelectboxProps {
   label: string;
   source?: string;
   validate: ((value: string | number) => string | undefined)[];
+  options: {label: string; value: string}[];
 }

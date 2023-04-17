@@ -1,7 +1,7 @@
 import { InputProps } from "../types/InputProps";
 import { useCallback, useContext, useState, useEffect } from "react";
 import { FormContext } from "../components/SimpleForm";
-import { notDefaultValue } from "../components/SelectBoxField";
+import { required } from "../components/SelectBoxField";
 
 interface UseInputProps extends Pick<InputProps, "source" | "validate"> {}
 
@@ -29,7 +29,7 @@ function useInput(props: UseInputProps) {
       //   .join("");
       const errorMessage = props.validate
         .map((validator) => validator(values[props.source]))
-        .concat(notDefaultValue("성별")(selected))
+        .concat(required("성별")(selected))
         // .filter((message) => message)
         .join("");
       console.log(props);

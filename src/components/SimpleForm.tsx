@@ -20,12 +20,12 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
   const [values, setValues] = useState<Record<string, string>>({
     name: "",
     password: "",
-    sex: "성별",
+    sex: undefined,
   });
   const [error, setError] = useState<Error>({
     name: undefined,
     password: undefined,
-    sex: "성별",
+    sex: undefined,
   });
 
   const value = useMemo(
