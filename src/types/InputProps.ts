@@ -7,3 +7,10 @@ export interface InputProps {
   type?: HTMLInputTypeAttribute;
   validate: ((value: string | number) => string | undefined)[];
 }
+
+export interface SelectboxProps {
+  value?: string;
+  label: string;
+  source?: string;
+  validate: ((value: string | number) => string | undefined)[];
+}

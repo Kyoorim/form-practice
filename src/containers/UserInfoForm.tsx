@@ -1,3 +1,4 @@
+import SelectboxField, { notDefaultValue } from "../components/SelectBoxField";
 import SimpleForm from "../components/SimpleForm";
 import TextField, { min, max } from "../components/TextField";
 
@@ -10,6 +11,11 @@ function UserInfoForm(): JSX.Element {
         type="password"
         source={"password"}
         label={"비밀번호"}
+      />
+      <SelectboxField
+        label={"성별"}
+        source={"sex"}
+        validate={notDefaultValue("성별")}
       />
     </SimpleForm>
   );

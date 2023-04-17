@@ -17,28 +17,34 @@ export const FormContext = createContext<FormContextType>({
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
-  const [values, setValues] = useState<Record<string, any>>({});
+  const [values, setValues] = useState<Record<string, string>>({
+    name: "",
+    password: "",
+    sex: "성별",
+  });
   const [error, setError] = useState<Error>({
     name: undefined,
     password: undefined,
+    sex: "성별",
   });
 
   const value = useMemo(
     () => ({ setValues, values, error, setError }),
     [setValues, values, error, setError]
   );
-
+  console.log("values -->", values);
   console.log(error?.name?.trim() === "");
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const nameIsValid = !error?.name || error?.name.trim() === "";
-    const passwordIsValid = !error?.password || error?.password.trim() === "";
+    const isValid =
+      (!error?.name || error?.name.trim() === "") &&
+      (!error?.password || error?.password.trim() === "") &&
+      values.sex !== "성별";
 
-    if (nameIsValid && passwordIsValid) {
+    if (isValid) {
       alert(JSON.stringify(values));
-
       setValues({});
     } else {
       alert("제출 실패");
