@@ -22,13 +22,12 @@ function useInput(props: UseInputProps) {
 
       const errorMessage = props.validate
         .map((validator) => validator(v))
-        .join(" ");
+        .join("");
 
       setError({ ...error, [props.source]: errorMessage });
     },
     [values, props.source, props.validate, setError, setValues]
   );
-  console.log(error);
 
   return { value: values[props.source], onChange, error };
 }

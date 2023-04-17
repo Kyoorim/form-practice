@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useMemo, useState } from "react";
 
-type Error = Record<string, string | undefined>
+type Error = Record<string, string | undefined>;
 
 type FormContextType = {
   setValues: (v: Record<string, string | number>) => void;
@@ -28,18 +28,20 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     [setValues, values, error, setError]
   );
 
+  console.log(error?.name?.trim() === "");
+
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const isValid = errors.length === 0;
+    const nameIsValid = !error?.name || error?.name.trim() === "";
+    const passwordIsValid = !error?.password || error?.password.trim() === "";
 
-    if (isValid) {
+    if (nameIsValid && passwordIsValid) {
       alert(JSON.stringify(values));
-      setError(false);
+
       setValues({});
     } else {
       alert("제출 실패");
-      setError(true);
     }
   };
 

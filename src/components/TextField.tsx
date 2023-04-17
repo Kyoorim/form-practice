@@ -5,7 +5,7 @@ import useInput from "../hooks/useInput";
 export const min = (length: number) => (value: string | number) => {
   if (String(value).length < length)
     return `최소 ${length}글자 이상 입력해주세요`;
-  else undefined;
+  else return undefined;
 };
 
 export const max = (length: number) => (value: string | number) => {
@@ -27,8 +27,9 @@ const TextField: FunctionComponent<InputProps> = ({
   });
   console.log(error);
 
-  const errorMessage = error?.message;
-  console.log(error?.message);
+  const errorMessage = error[source];
+
+  console.log(errorMessage);
 
   return (
     <div>
