@@ -3,21 +3,21 @@ import { createContext, PropsWithChildren, useMemo, useState } from "react";
 type Error = Record<string, string | undefined>;
 
 type FormContextType = {
-  setValues: (v: Record<string, string | number>) => void;
-  values: Record<string, string | number>;
+  setValues: (v: Record<string, string>) => void;
+  values: Record<string, string | undefined>;
   error: Error;
   setError: (errorMessage: Error) => void;
 };
 
 export const FormContext = createContext<FormContextType>({
-  setValues: (v: Record<string, string | number>) => {},
-  values: {} as Record<string, string | number>,
+  setValues: (v: Record<string, string>) => {},
+  values: {} as Record<string, string>,
   error: {} as Error,
   setError: (errorMessage: Error) => {},
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
-  const [values, setValues] = useState<Record<string, string>>({
+  const [values, setValues] = useState<Record<string, string | undefined>>({
     name: "",
     password: "",
     sex: undefined,
@@ -25,7 +25,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
   const [error, setError] = useState<Error>({
     name: undefined,
     password: undefined,
-    sex: undefined,
+    sex: "성별을 선택해주세요",
   });
 
   const value = useMemo(
@@ -33,7 +33,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     [setValues, values, error, setError]
   );
   console.log("values -->", values);
-  console.log(error?.name?.trim() === "");
+  console.log("values.sex -->", values.sex);
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     const isValid =
       (!error?.name || error?.name.trim() === "") &&
       (!error?.password || error?.password.trim() === "") &&
-      values.sex !== "성별";
+      values.sex !== undefined;
 
     if (isValid) {
       alert(JSON.stringify(values));

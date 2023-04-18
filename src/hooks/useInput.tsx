@@ -1,14 +1,11 @@
 import { InputProps } from "../types/InputProps";
-import { useCallback, useContext, useState, useEffect } from "react";
+import { useCallback, useContext, useState } from "react";
 import { FormContext } from "../components/SimpleForm";
-import { required } from "../components/SelectBoxField";
 
 interface UseInputProps extends Pick<InputProps, "source" | "validate"> {}
 
-interface UseInputReturn {
-  value: string | number;
-  onChange: (v: string | number) => void;
-  error: { message?: string; key: string } | undefined;
+interface Validator {
+  (value: string): string | undefined;
 }
 
 function useInput(props: UseInputProps) {
@@ -17,30 +14,22 @@ function useInput(props: UseInputProps) {
   const [selected, setSelected] = useState("sex");
 
   const onChange = useCallback(
-    (v: string | number) => {
+    (value: string) => {
       setValues({
         ...values,
-        [props.source]: v,
-      });
-      setSelected(v as string);
+        [props.source]: value,
+      } as Record<string, string>);
+      setSelected(value as string);
 
-      // const errorMessage = props.validate
-      //   .map((validator) => validator(v))
-      //   .join("");
       const errorMessage = props.validate
-        .map((validator) => validator(values[props.source]))
-        .concat(required("성별")(selected))
-        // .filter((message) => message)
-        .join("");
-      console.log(props);
+        .map((validator: Validator) => validator(value))
+        .filter((message) => message)
+        .join(", ");
+
       setError({ ...error, [props.source]: errorMessage });
     },
     [values, props.source, props.validate, setError, setValues]
   );
-
-  // useEffect(() => {
-  //   console.log(selected);
-  // }, [selected]);
 
   return { value: values[props.source], onChange, error };
 }

@@ -5,13 +5,12 @@ export interface InputProps {
   label: string;
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
-  validate: ((value: string | number) => string | undefined)[];
+  validate: ((value: string) => string | undefined)[];
 }
 
 export interface SelectboxProps {
-  value?: string;
   label: string;
-  source?: string;
-  validate: ((value: string | number) => string | undefined)[];
-  options: {label: string; value: string}[];
+  source: string;
+  validate: ((value: string) => string | undefined)[];
+  options: { label: string; value: string }[];
 }
