@@ -1,23 +1,24 @@
 import { createContext, PropsWithChildren, useMemo, useState } from "react";
 
 type Error = Record<string, string | undefined>;
+export type Value = Record<string, string | undefined>;
 
 type FormContextType = {
-  setValues: (v: Record<string, string>) => void;
+  setValues: (v: Value) => void;
   values: Record<string, string | undefined>;
   error: Error;
   setError: (errorMessage: Error) => void;
 };
 
 export const FormContext = createContext<FormContextType>({
-  setValues: (v: Record<string, string>) => {},
-  values: {} as Record<string, string>,
+  setValues: (v: Value) => {},
+  values: {} as Value,
   error: {} as Error,
   setError: (errorMessage: Error) => {},
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
-  const [values, setValues] = useState<Record<string, string | undefined>>({
+  const [values, setValues] = useState<Value>({
     name: "",
     password: "",
     sex: undefined,
@@ -25,7 +26,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
   const [error, setError] = useState<Error>({
     name: undefined,
     password: undefined,
-    sex: "성별을 선택해주세요",
+    sex: undefined,
   });
 
   const value = useMemo(
