@@ -14,3 +14,11 @@ export interface SelectboxProps {
   validate: ((value: string) => string | undefined)[];
   options: { label: string; value: string }[];
 }
+
+export interface CheckboxProps {
+  source: string;
+  label: string;
+  type: "checkbox";
+  validate: ((value: boolean) => string | undefined)[];
+  value?: boolean;
+}

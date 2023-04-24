@@ -1,6 +1,6 @@
 import { InputProps } from "../types/InputProps";
-import { useCallback, useContext, useState } from "react";
-import {FormContext, Value} from "../components/SimpleForm";
+import { useCallback, useContext } from "react";
+import { FormContext } from "../components/SimpleForm";
 
 interface UseInputProps extends Pick<InputProps, "source" | "validate"> {}
 
@@ -12,11 +12,11 @@ function useInput(props: UseInputProps) {
   const { setValues, values, error, setError } = useContext(FormContext);
 
   const onChange = useCallback(
-    (value: string) => {
-        setValues({
-            ...values,
-            [props.source]: value
-        });
+    (value: string | boolean) => {
+      setValues({
+        ...values,
+        [props.source]: value,
+      });
 
       const errorMessage = props.validate
         .map((validator: Validator) => validator(value))
@@ -32,5 +32,3 @@ function useInput(props: UseInputProps) {
 }
 
 export default useInput;
-
-

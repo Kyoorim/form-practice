@@ -6,7 +6,7 @@ const SelectboxField: FunctionComponent<SelectboxProps> = ({
   source,
   label,
   validate,
-    options,
+  options,
 }) => {
   const { value, onChange, error } = useInput({ source, validate });
 
@@ -29,6 +29,7 @@ const SelectboxField: FunctionComponent<SelectboxProps> = ({
           ))}
         </select>
       </label>
+      {errorMessage && <span style={{ color: "red" }}>{errorMessage}</span>}
     </div>
   );
 };

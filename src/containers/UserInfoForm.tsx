@@ -1,7 +1,8 @@
 import SelectboxField from "../components/SelectBoxField";
 import SimpleForm from "../components/SimpleForm";
 import TextField from "../components/TextField";
-import { max, min, required } from "../validation";
+import CheckboxField from "../components/CheckBoxField";
+import { isChecked, max, min, required } from "../validation";
 
 function UserInfoForm(): JSX.Element {
   return (
@@ -22,6 +23,12 @@ function UserInfoForm(): JSX.Element {
           { value: "남성", label: "남성" },
           { value: "여성", label: "여성" },
         ]}
+      />
+      <CheckboxField
+        label={"개인정보 제공에 동의합니다"}
+        type="checkbox"
+        source={"checkbox"}
+        validate={[isChecked("개인정보 제공에 동의 체크해주세요")]}
       />
     </SimpleForm>
   );

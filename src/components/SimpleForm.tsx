@@ -1,11 +1,11 @@
 import { createContext, PropsWithChildren, useMemo, useState } from "react";
 
 type Error = Record<string, string | undefined>;
-export type Value = Record<string, string | undefined>;
+export type Value = Record<string, string | undefined | boolean>;
 
 type FormContextType = {
   setValues: (v: Value) => void;
-  values: Record<string, string | undefined>;
+  values: Value;
   error: Error;
   setError: (errorMessage: Error) => void;
 };
@@ -22,11 +22,13 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     name: "",
     password: "",
     sex: undefined,
+    checkbox: undefined,
   });
   const [error, setError] = useState<Error>({
     name: undefined,
     password: undefined,
     sex: undefined,
+    checkbox: undefined,
   });
 
   const value = useMemo(
@@ -34,7 +36,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     [setValues, values, error, setError]
   );
   console.log("values -->", values);
-  console.log("values.sex -->", values.sex);
+  console.log("values.checkbox -->", values.checkbox);
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -42,11 +44,18 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     const isValid =
       (!error?.name || error?.name.trim() === "") &&
       (!error?.password || error?.password.trim() === "") &&
-      values.sex !== undefined;
+      !!values.sex &&
+      values.sex !== "성별" &&
+      values.checkbox === true;
 
     if (isValid) {
       alert(JSON.stringify(values));
-      setValues({});
+      setValues({
+        name: "",
+        password: "",
+        sex: undefined,
+        checkbox: undefined,
+      });
     } else {
       alert("제출 실패");
     }
