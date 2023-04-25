@@ -42,8 +42,9 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     e.preventDefault();
 
     const isValid =
-      (!error?.name || error?.name.trim() === "") &&
-      (!error?.password || error?.password.trim() === "") &&
+        // 에러가 undefined && error.trim() === empty string
+      // (!error?.name || error?.name.trim() === "") &&
+      // (!error?.password || error?.password.trim() === "") &&
       !!values.sex &&
       values.sex !== "성별" &&
       values.checkbox === true;

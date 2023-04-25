@@ -20,7 +20,7 @@ const CheckboxField: FunctionComponent<CheckboxProps> = ({
         <input
           type="checkbox"
           name={source}
-          checked={value}
+          checked={Boolean(value)}
           onChange={(e) => onChange(e.target.checked)}
         />
         {label}
