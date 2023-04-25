@@ -35,21 +35,16 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     () => ({ setValues, values, error, setError }),
     [setValues, values, error, setError]
   );
-  console.log("values -->", values);
-  console.log("values.checkbox -->", values.checkbox);
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    console.log(error);
 
-    const isValid =
-        // 에러가 undefined && error.trim() === empty string
-      // (!error?.name || error?.name.trim() === "") &&
-      // (!error?.password || error?.password.trim() === "") &&
-      !!values.sex &&
-      values.sex !== "성별" &&
-      values.checkbox === true;
+    const isValid = (obj: Error) => {
+      return Object.values(obj).every((value) => value === "");
+    };
 
-    if (isValid) {
+    if (isValid(error)) {
       alert(JSON.stringify(values));
       setValues({
         name: "",

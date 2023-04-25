@@ -13,11 +13,8 @@ const TextField: FunctionComponent<InputProps> = ({
     source,
     validate,
   });
-  console.log(error);
 
   const errorMessage = error[source];
-
-  console.log(errorMessage);
 
   return (
     <div>
