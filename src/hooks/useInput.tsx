@@ -4,9 +4,15 @@ import { FormContext } from "../components/SimpleForm";
 
 interface UseInputProps extends Pick<InputProps, "source" | "validate"> {}
 
-interface Validator {
+interface StringValidator {
   (value: string): string | undefined;
 }
+
+interface BooleanValidator {
+  (value: boolean): string | undefined;
+}
+
+type Validator = StringValidator | BooleanValidator;
 
 function useInput(props: UseInputProps) {
   const { setValues, values, error, setError } = useContext(FormContext);
@@ -19,7 +25,11 @@ function useInput(props: UseInputProps) {
       });
 
       const errorMessage = props.validate
-        .map((validator: Validator) => validator(value))
+        .map((validator: Validator) =>
+          typeof value === "string"
+            ? (validator as StringValidator)(value)
+            : (validator as BooleanValidator)(value)
+        )
         .filter((message) => message)
         .join(", ");
 

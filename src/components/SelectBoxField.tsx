@@ -11,7 +11,6 @@ const SelectboxField: FunctionComponent<SelectboxProps> = ({
   const { value, onChange, error } = useInput({ source, validate });
 
   const errorMessage = error[source];
-  console.log(error);
 
   return (
     <div>
@@ -19,7 +18,7 @@ const SelectboxField: FunctionComponent<SelectboxProps> = ({
         {label}
         <select
           name={source}
-          value={value}
+          value={String(value)}
           onChange={(e) => onChange(e.target.value)}
         >
           {options.map((option) => (
