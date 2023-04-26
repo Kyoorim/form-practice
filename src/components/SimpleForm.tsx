@@ -41,7 +41,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     console.log(error);
 
     const isValid = (obj: Error) => {
-      return Object.values(obj).every((value) => value === "");
+      return Object.values(obj).every((value) => value === undefined);
     };
 
     if (isValid(error)) {

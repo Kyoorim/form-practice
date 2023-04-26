@@ -4,15 +4,9 @@ import { FormContext } from "../components/SimpleForm";
 
 interface UseInputProps extends Pick<InputProps, "source" | "validate"> {}
 
-interface StringValidator {
-  (value: string): string | undefined;
+interface Validator<T> {
+    (value: T): string | undefined;
 }
-
-interface BooleanValidator {
-  (value: boolean): string | undefined;
-}
-
-type Validator = StringValidator | BooleanValidator;
 
 function useInput(props: UseInputProps) {
   const { setValues, values, error, setError } = useContext(FormContext);
@@ -24,15 +18,14 @@ function useInput(props: UseInputProps) {
         [props.source]: value,
       });
 
-      const errorMessage = props.validate
-        .map((validator: Validator) =>
-          typeof value === "string"
-            ? (validator as StringValidator)(value)
-            : (validator as BooleanValidator)(value)
-        )
-        .filter((message) => message)
-        .join(", ");
+      const errorMessages = props.validate
+        .map((validator) => validator(value))
 
+    // [undefined, "몇자 이상 입력해주세요."]
+    // ["몇자 이상 입력해주세요.", undefined, ]
+    // ["몇자 이상 입력해주세요.", "반드시 입력해주세요.", ]
+    //     [undefined, undefined]
+      const errorMessage = errorMessages.find((v) => v !== undefined);
       setError({ ...error, [props.source]: errorMessage });
     },
     [values, props.source, props.validate, setError, setValues]
