@@ -1,26 +1,34 @@
 import { createContext, PropsWithChildren, useMemo, useState } from "react";
 
 type Error = Record<string, string | undefined>;
+export type Value = Record<string, string | undefined | boolean>;
 
 type FormContextType = {
-  setValues: (v: Record<string, string | number>) => void;
-  values: Record<string, string | number>;
+  setValues: (v: Value) => void;
+  values: Value;
   error: Error;
   setError: (errorMessage: Error) => void;
 };
 
 export const FormContext = createContext<FormContextType>({
-  setValues: (v: Record<string, string | number>) => {},
-  values: {} as Record<string, string | number>,
+  setValues: (v: Value) => {},
+  values: {} as Value,
   error: {} as Error,
   setError: (errorMessage: Error) => {},
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
-  const [values, setValues] = useState<Record<string, any>>({});
+  const [values, setValues] = useState<Value>({
+    name: "",
+    password: "",
+    sex: undefined,
+    checkbox: undefined,
+  });
   const [error, setError] = useState<Error>({
     name: undefined,
     password: undefined,
+    sex: undefined,
+    checkbox: undefined,
   });
 
   const value = useMemo(
@@ -28,18 +36,22 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     [setValues, values, error, setError]
   );
 
-  console.log(error?.name?.trim() === "");
-
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    console.log(error);
 
-    const nameIsValid = !error?.name || error?.name.trim() === "";
-    const passwordIsValid = !error?.password || error?.password.trim() === "";
+    const isValid = (obj: Error) => {
+      return Object.values(obj).every((value) => value === undefined);
+    };
 
-    if (nameIsValid && passwordIsValid) {
+    if (isValid(error)) {
       alert(JSON.stringify(values));
-
-      setValues({});
+      setValues({
+        name: "",
+        password: "",
+        sex: undefined,
+        checkbox: undefined,
+      });
     } else {
       alert("제출 실패");
     }
