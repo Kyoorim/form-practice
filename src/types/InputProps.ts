@@ -5,7 +5,7 @@ export interface InputProps {
   label: string;
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
-  validate: (((value: string) => string | undefined) | ((value: boolean) => string | undefined))[];
+  validate: (<T>(value: T) => string | undefined)[];
 }
 
 export interface SelectboxProps {
