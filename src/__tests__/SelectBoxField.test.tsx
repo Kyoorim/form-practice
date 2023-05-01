@@ -1,42 +1,44 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import TextField from "../components/TextField";
+import SelectboxField from "../components/SelectBoxField";
 import SimpleForm from "../components/SimpleForm";
 
 const defaultProps = {
   source: "testSource",
   label: "Test Label",
-  placeholder: "Test Placeholder",
-  type: "text",
+  options: [
+    { value: "option1", label: "Option 1" },
+    { value: "option2", label: "Option 2" },
+  ],
   validate: [],
 };
 
-describe("<TextField />", () => {
+describe("<SelectboxField />", () => {
   it("should render", () => {
     render(
       <SimpleForm>
-        <TextField {...defaultProps} />
+        <SelectboxField {...defaultProps} />
       </SimpleForm>
     );
 
     expect(screen.getByLabelText(defaultProps.label)).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText(defaultProps.placeholder)
-    ).toBeInTheDocument();
+    defaultProps.options.forEach((option) =>
+      expect(screen.getByText(option.label)).toBeInTheDocument()
+    );
   });
 
-  it("should call onChange when text is entered", () => {
+  it("should change the selected option", () => {
     render(
       <SimpleForm>
-        <TextField {...defaultProps} />
+        <SelectboxField {...defaultProps} />
       </SimpleForm>
     );
-    const inputElement = screen.getByLabelText(
+    const selectElement = screen.getByLabelText(
       defaultProps.label
-    ) as HTMLInputElement;
+    ) as HTMLSelectElement;
 
-    fireEvent.change(inputElement, { target: { value: "New text" } });
+    fireEvent.change(selectElement, { target: { value: "option2" } });
 
-    expect(inputElement.value).toBe("New text");
+    expect(selectElement.value).toBe("option2");
   });
 
   it("should display error message when provided", () => {
@@ -46,14 +48,14 @@ describe("<TextField />", () => {
 
     render(
       <SimpleForm>
-        <TextField {...defaultProps} validate={customValidate} />
+        <SelectboxField {...defaultProps} validate={customValidate} />
       </SimpleForm>
     );
-    const inputElement = screen.getByLabelText(
+    const selectElement = screen.getByLabelText(
       defaultProps.label
-    ) as HTMLInputElement;
+    ) as HTMLSelectElement;
 
-    fireEvent.change(inputElement, { target: { value: "New text" } });
+    fireEvent.change(selectElement, { target: { value: "option2" } });
 
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
     expect(mockValidationFn).toHaveBeenCalled();

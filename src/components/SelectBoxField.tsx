@@ -20,6 +20,7 @@ const SelectboxField: FunctionComponent<SelectboxProps> = ({
           name={source}
           value={String(value)}
           onChange={(e) => onChange(e.target.value)}
+          id={source}
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>

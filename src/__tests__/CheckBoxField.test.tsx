@@ -1,42 +1,38 @@
-import { render, fireEvent, screen } from "@testing-library/react";
-import TextField from "../components/TextField";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+import CheckBoxField from "../components/CheckBoxField";
 import SimpleForm from "../components/SimpleForm";
 
 const defaultProps = {
   source: "testSource",
   label: "Test Label",
-  placeholder: "Test Placeholder",
-  type: "text",
+  type: "checkbox" as const,
   validate: [],
 };
 
-describe("<TextField />", () => {
+describe("<CheckboxField />", () => {
   it("should render", () => {
     render(
       <SimpleForm>
-        <TextField {...defaultProps} />
+        <CheckBoxField {...defaultProps} />
       </SimpleForm>
     );
 
     expect(screen.getByLabelText(defaultProps.label)).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText(defaultProps.placeholder)
-    ).toBeInTheDocument();
   });
 
-  it("should call onChange when text is entered", () => {
+  it("should change the checked state when clicked", () => {
     render(
       <SimpleForm>
-        <TextField {...defaultProps} />
+        <CheckBoxField {...defaultProps} />
       </SimpleForm>
     );
-    const inputElement = screen.getByLabelText(
+    const checkboxElement = screen.getByLabelText(
       defaultProps.label
     ) as HTMLInputElement;
 
-    fireEvent.change(inputElement, { target: { value: "New text" } });
+    fireEvent.click(checkboxElement);
 
-    expect(inputElement.value).toBe("New text");
+    expect(checkboxElement.checked).toBe(true);
   });
 
   it("should display error message when provided", () => {
@@ -46,14 +42,14 @@ describe("<TextField />", () => {
 
     render(
       <SimpleForm>
-        <TextField {...defaultProps} validate={customValidate} />
+        <CheckBoxField {...defaultProps} validate={customValidate} />
       </SimpleForm>
     );
-    const inputElement = screen.getByLabelText(
+    const checkboxElement = screen.getByLabelText(
       defaultProps.label
     ) as HTMLInputElement;
 
-    fireEvent.change(inputElement, { target: { value: "New text" } });
+    fireEvent.click(checkboxElement);
 
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
     expect(mockValidationFn).toHaveBeenCalled();
