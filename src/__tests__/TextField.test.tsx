@@ -1,5 +1,6 @@
 import { render, fireEvent, screen } from "@testing-library/react";
 import TextField from "../components/TextField";
+import SimpleForm from "../components/SimpleForm";
 
 const defaultProps = {
   source: "testSource",
@@ -15,7 +16,11 @@ const defaultProps = {
 
 describe("<TextField />", () => {
   it("should render", () => {
-    render(<TextField {...defaultProps} />);
+    render(
+      <SimpleForm>
+        <TextField {...defaultProps} />
+      </SimpleForm>
+    );
 
     expect(screen.getByLabelText(defaultProps.label)).toBeInTheDocument();
     expect(
@@ -24,7 +29,11 @@ describe("<TextField />", () => {
   });
 
   it("should call onChange when text is entered", () => {
-    render(<TextField {...defaultProps} />);
+    render(
+      <SimpleForm>
+        <TextField {...defaultProps} />
+      </SimpleForm>
+    );
     const inputElement = screen.getByLabelText(
       defaultProps.label
     ) as HTMLInputElement;
@@ -39,7 +48,11 @@ describe("<TextField />", () => {
     const mockValidationFn = jest.fn().mockReturnValue(errorMessage);
     const customValidate = [mockValidationFn];
 
-    render(<TextField {...defaultProps} validate={customValidate} />);
+    render(
+      <SimpleForm>
+        <TextField {...defaultProps} validate={customValidate} />
+      </SimpleForm>
+    );
     const inputElement = screen.getByLabelText(
       defaultProps.label
     ) as HTMLInputElement;
