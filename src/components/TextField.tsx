@@ -26,6 +26,7 @@ const TextField: FunctionComponent<InputProps> = ({
           name={source}
           type={type}
           placeholder={placeholder}
+          id={source}
         />
         {errorMessage && <span style={{ color: "red" }}>{errorMessage}</span>}
       </div>
